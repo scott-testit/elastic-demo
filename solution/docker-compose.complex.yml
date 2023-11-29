@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.0
+    container_name: es01
+    environment:
+      - node.name=es01
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata01:/usr/share/elasticsearch/data
+#      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9200:9200
+
+volumes:
+  esdata01:
+    driver: local
