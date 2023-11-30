@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  myservice:
+    image: <image name here>
+    environment:
+    volumes:
+    ports:
+      - <host port>:<container port>
+
+
+volumes:
