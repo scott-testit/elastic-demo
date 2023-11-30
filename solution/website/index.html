@@ -10,8 +10,7 @@
             let search = document.getElementById("searchInput").value
 
             // depending where this is run, this URL may need to be changed to: https://${CODESPACE_NAME}-9200.app.github.dev/shakespeare/_search
-            //const URL = 'http://localhost:9200/shakespeare/_search'
-            const URL = 'https://miniature-space-zebra-v4qqj6wjw7qfxv5r-9200.app.github.dev/shakespeare/_search'
+            const URL = 'http://localhost:9200/shakespeare/_search'
             const data = {
                 "query": {
                     "match_phrase" : {

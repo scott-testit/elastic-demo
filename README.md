@@ -1,5 +1,18 @@
 # Elastic Search Demo
 
+Topics we cover in this demo:
+1. [Github Codespaces](https://github.com/features/codespaces)
+2. [Docker / Docker Compose](https://github.com/compose-spec/compose-spec/blob/master/spec.md)
+3. [ElasticSearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) 
+4. [Kibana](https://www.elastic.co/guide/en/kibana/current/index.html)
+
+When working in Github Codespaces the IDE will suggest installing different extensions, it's usually a good idea to click 
+yes to install the extension as long as you know what the extension is related to.
+
+## Create a Codespace
+
+In this repo, click on the green "Code" select Codespaces and click the plus sign
+
 ## Install/Run ElasticSearch
 
 Start here: https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
@@ -19,7 +32,6 @@ The codespace should ask you if you want to open the link in a browser
 Use cUrl to validate it's up and working correctly:
 
 curl http://localhost:9200
-
 
 curl "http://localhost:9200/_cat/nodes?v=true&pretty"
 
@@ -100,6 +112,21 @@ Search for: 'thine ownself be true'
 
 `curl -H "Content-Type: application/json" 'http://localhost:9200/shakespeare/_search?pretty' -d "{ \"query\": { \"match_phrase\" : { \"text_entry\" : \"$TEXT\" } } }"`
 
+Simple search using query params (supports Lucene syntax):
+
+`curl "http://localhost:9200/shakespeare/_search?pretty&q=countrymen"`
+
+(Without specifying a field ES searches all text fields?)
+
+`curl "http://localhost:9200/shakespeare/_search?pretty&q=AEGEON"`
+
+Specify a field to search:
+
+`curl "http://localhost:9200/shakespeare/_search?pretty&q=line_number:1.1.12"`
+
+Many attributes can be specified in the body of the request or in query params
+
+
 ## Return document by id
 
 `curl http://localhost:9200/shakespeare/_doc/34229?pretty`
@@ -109,14 +136,11 @@ Search for: 'thine ownself be true'
 Retrieve an entire play. Use a Term query to search for a specific 'term' in a specific field (exact match)
 https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
 
-
 `curl -H "Content-Type: application/json" 'http://localhost:9200/shakespeare/_search?pretty' -d '{ "query": { "term" : { "play_name" : "Hamlet" } } }'`
 
 ## Pagination
 
 By default, searches return 10 results, but you can use the `size` attribute to get more results back and `from` to specify a range.
-
-Like many attributes, this can be specified in the body of the request or in query params
 
 ## Fields
 
@@ -128,7 +152,6 @@ specifying those list of fields in the request (see below)
 Specify a sort on integer field: `line_id` 
 
 Numeric fields work best for sorting, but some keyword fields can also be used, but can't sort on text fields)
-
 
 # Composite Queries
 
@@ -160,13 +183,35 @@ END
 )
 ```
 
-
 Now use the variable in the curl command
 
 `curl -H "Content-Type: application/json" 'http://localhost:9200/shakespeare/_search?pretty&_source=false&sort=line_id&size=100' -d "$QUERY"`
 
+## Kibana
 
-# Analyze the index
+https://www.elastic.co/guide/en/kibana/current/docker.html
+
+Run ElasticSearch and Kibana together:
+
+Go to solution/kibana dir:
+
+`docker-compose up`
+
+Look for Kibana code to get started in output:
+
+`Go to http://0.0.0.0:5601/?code=796098 to get started.`
+
+Connect to ElasticSearch manually since it's running unsecured on the same network, use the URL: http://es01:9200
 
 
+### Using Kibana
 
+Once Kibana is setup and connected to the ElasticSearch instance, check out the index under: Stack Management -> Index Management
+
+Then use Discover to explore your index
+Search using KQL or Lucene
+
+Import data using Machine Learning -> Visualize Data from File -> Import a CSV
+
+
+## Creating a website using ElasticSearch as a back-end

@@ -14,9 +14,5 @@ services:
         soft: -1
         hard: -1
 
-#    volumes:
     ports: 
      - 9200:9200
-
-
-#volumes:
