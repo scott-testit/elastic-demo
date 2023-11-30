@@ -8,3 +8,5 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:9200/shakespear
 curl -s http://localhost:9200/shakespeare
 
 # Bulk upload data
+curl -H "Content-Type: application/json" -X POST 'http://localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
+

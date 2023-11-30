@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 services:
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.1.0
@@ -16,7 +16,7 @@ services:
         hard: -1
     volumes:
       - esdata01:/usr/share/elasticsearch/data
-#      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9200:9200
 
