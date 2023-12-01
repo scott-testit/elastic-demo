@@ -1,11 +1,18 @@
 version: '3.8'
 services:
-  myservice:
-    image: <image name here>
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
     environment:
-    volumes:
-    ports:
-      - <host port>:<container port>
+      - node.name=es01
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
-
-volumes:
+    ports: 
+     - 9200:9200
